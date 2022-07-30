@@ -3,9 +3,9 @@ const { MarkovMachine } = require("./markov")
 
 describe('markov machine tests', function () {
     test('makes chains', function () {
-      let mm = new MarkovMachine("aa bb cc aa BB aa BB");
+      let machine = new MarkovMachine("aa bb cc aa BB aa BB");
 
-      expect(mm.chains).toEqual(new Map([
+      expect(machine.chains).toEqual(new Map([
         ["aa", ["bb", "BB", "BB"]],
         ["bb", ["cc"]],
         ["cc", ["aa"]],
@@ -24,20 +24,20 @@ describe('markov machine tests', function () {
     });
 
     test('generates valid text', function () {
-      let bigrams = ["the cat", "cat in", "in the", "the hat", "hat "];
+      let bg = ["the cat", "cat in", "in the", "the hat", "hat "];
       let mm = new MarkovMachine("the cat in the hat");
-      let output = mm.makeText();
-      expect(output.endsWith('hat')).toBe(true);
+      let text = mm.makeText();
+      expect(text.endsWith('hat')).toBe(true);
 
-      let outputWords = mm.makeText().split(/[ \r\n]+/);
+      let words = mm.makeText().split(/[ \r\n]+/);
 
-      for (let i = 0; i < outputWords.length - 1; i++) {
-        expect(bigrams).toContain(outputWords[i] + " " + outputWords[i + 1]);
+      for (let i = 0; i < words.length - 1; i++) {
+        expect(bg).toContain(words[i] + " " + words[i + 1]);
       }
     });
 
     test('cuts off at length', function () {
-      let bigrams = ["the cat", "cat in", "in the", "the hat", "hat "];
+      let bg = ["the cat", "cat in", "in the", "the hat", "hat "];
       let mm = new MarkovMachine("the cat in the hat");
       let output = mm.makeText(2);
 
